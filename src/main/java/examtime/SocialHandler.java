@@ -84,7 +84,7 @@ public class SocialHandler {
         try {
             File file = new File("C:\\Users\\reneb\\IdeaProjects\\Exam_05-22\\src\\main\\resources\\result.txt");
             Scanner fileScanner = new Scanner(file);
-            System.out.print("Results from file: " + "\n" + "Handles:\n");
+            System.out.print("Results from file:" + "\n" + "Handles:\n");
             while (fileScanner.hasNext()) {
                 System.out.println(fileScanner.nextLine());
             }

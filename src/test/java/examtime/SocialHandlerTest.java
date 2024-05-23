@@ -82,7 +82,7 @@ class SocialHandlerTest {
     }
 
     @Test
-    @DisplayName("To check if message prints if there is no handle")
+    @DisplayName("To check if handle does not exist")
     void removeHandleTestNoSuchHandle() {
         //when
         socialHandler.addHandle("MikeJones");
@@ -104,6 +104,7 @@ class SocialHandlerTest {
     }
 
     @Test
+    @DisplayName("To check if handle is successfully updated")
     void updateHandleTest() {
         //when
         socialHandler.addHandle("reneborja");
@@ -113,6 +114,7 @@ class SocialHandlerTest {
     }
 
     @Test
+    @DisplayName("To check if handle does not exist")
     void updateHandleNonExistingHandle() {
         socialHandler.addHandle("myhandle");
         socialHandler.updateHandle("nonexistinghandle", "newhandle");
@@ -121,6 +123,7 @@ class SocialHandlerTest {
     }
 
     @Test
+    @DisplayName("To check if handle is null")
     void updateHandleNull() {
         socialHandler.addHandle("existinghandle");
         assertThrows(NullPointerException.class, ()
@@ -130,6 +133,7 @@ class SocialHandlerTest {
     }
 
     @Test
+    @DisplayName("To check if handle is empty or blank")
     void updateHandleEmpty() {
         socialHandler.addHandle("myhandle");
         assertThrows(IllegalArgumentException.class, ()
@@ -139,6 +143,7 @@ class SocialHandlerTest {
     }
 
     @Test
+    @DisplayName("To check if handle is not updated to a duplicate handle")
     void updateHandleExisting() {
         socialHandler.addHandle("reneborja");
         socialHandler.addHandle("mikejones");
