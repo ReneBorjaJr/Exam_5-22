@@ -19,9 +19,9 @@ class SocialHandlerTest {
     @DisplayName("To check if a social media handle was created successfully")
     void createHandleTest() {
         //when
-        String actual = socialHandler.checkHandle("12345678910");
+        String actual = socialHandler.checkHandle("BandsMakeDance");
         //then
-        assertEquals("@123456789", actual);
+        assertEquals("@bandsmake", actual);
     }
 
     @Test
@@ -52,6 +52,15 @@ class SocialHandlerTest {
     }
 
     @Test
+    @DisplayName("To check if handle contains spaces")
+    void checkHandleWithSpaces() {
+        assertThrows(IllegalArgumentException.class, ()
+                -> {
+            socialHandler.checkHandle("Rene Borja");
+        });
+    }
+
+    @Test
     @DisplayName("To check if handle was added despite multiple attempts")
     void addHandleTest() {
         //when
@@ -60,6 +69,81 @@ class SocialHandlerTest {
         socialHandler.addHandle("mikeJones");
         //then
         assertEquals(1, socialHandler.getUniqueHandles().size());
+    }
 
+    @Test
+    @DisplayName("To check if handle was removed")
+    void removeHandleTest() throws Exception {
+        //when
+        socialHandler.addHandle("MikeJones");
+        socialHandler.removeHandle("MikeJones");
+        //then
+        assertEquals(0, socialHandler.getUniqueHandles().size());
+    }
+
+    @Test
+    @DisplayName("To check if message prints if there is no handle")
+    void removeHandleTestNoSuchHandle() {
+        //when
+        socialHandler.addHandle("MikeJones");
+        //then
+        assertThrows(IllegalArgumentException.class, ()
+                -> {
+            socialHandler.removeHandle("jonesmike");
+        });
+    }
+
+    @Test
+    @DisplayName("To check if handle is null")
+    void removeHandleTestNull() {
+        //then
+        assertThrows(NullPointerException.class, ()
+                -> {
+            socialHandler.removeHandle(null);
+        });
+    }
+
+    @Test
+    void updateHandleTest() {
+        //when
+        socialHandler.addHandle("reneborja");
+        socialHandler.updateHandle("reneborja", "mikejones");
+        assertFalse(socialHandler.getUniqueHandles().contains("@reneborja"));
+        assertTrue(socialHandler.getUniqueHandles().contains("@mikejones"));
+    }
+
+    @Test
+    void updateHandleNonExistingHandle() {
+        socialHandler.addHandle("myhandle");
+        socialHandler.updateHandle("nonexistinghandle", "newhandle");
+        assertFalse(socialHandler.getUniqueHandles().contains("@newhandle"));
+        assertTrue(socialHandler.getUniqueHandles().contains("@myhandle"));
+    }
+
+    @Test
+    void updateHandleNull() {
+        socialHandler.addHandle("existinghandle");
+        assertThrows(NullPointerException.class, ()
+                -> {
+            socialHandler.updateHandle("existinghandle", null);
+        });
+    }
+
+    @Test
+    void updateHandleEmpty() {
+        socialHandler.addHandle("myhandle");
+        assertThrows(IllegalArgumentException.class, ()
+                -> {
+            socialHandler.updateHandle("myhandle", "");
+        });
+    }
+
+    @Test
+    void updateHandleExisting() {
+        socialHandler.addHandle("reneborja");
+        socialHandler.addHandle("mikejones");
+        socialHandler.updateHandle("reneborja", "mikejones");
+        assertTrue(socialHandler.getUniqueHandles().contains("@reneborja"));
+        assertTrue(socialHandler.getUniqueHandles().contains("@mikejones"));
     }
 }
